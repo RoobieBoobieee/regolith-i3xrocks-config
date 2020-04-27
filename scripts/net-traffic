@@ -2,7 +2,7 @@
 
 # span for text
 fspan() {
-    echo "<span font_desc=\"${VALUE_FONT}\" color=\"${VALUE_COLOR}\"> ${1}</span>"
+    echo "<span font_desc=\"${VALUE_FONT}\" color=\"${VALUE_COLOR}\">${1}</span>"
 }
 
 # span for label/icon
@@ -171,19 +171,19 @@ RN="$(echo "$RX"/"$FAC" | bc -l | awk '{ printf("%4.1f", $1)}')"
 TN="$(echo "$TX"/"$FAC" | bc -l | awk '{ printf("%4.1f", $1)}')"
 AN="$(echo "$AX"/"$FAC" | bc -l | awk '{ printf("%4.1f", $1)}')"
 
-for s in $RN $TN $AN; do
-    [[ "$s" = "$(printf "%s\n-0.0001\n" "$s" | sort -g | head -1)" ]] && exit
-done
+# for s in $RN $TN $AN; do
+#     [[ "$s" = "$(printf "%s\n-0.0001\n" "$s" | sort -g | head -1)" ]] && exit
+# done
 
 # output net usage using pango markup
 if [ "$RT" = "up" ]; then
-    echo "$(lspan "${NIC}")$(fspan "$TN$SUF")$(lspan "${UP}")"
+    echo "$(lspan "${NIC}")$(fspan "$TN$SUF") $(lspan "${UP}")"
     elif [ "$RT" = "down" ] || [ "$RT" = "dn" ]; then
-    echo "$(lspan "${NIC}")$(fspan "$RN$SUF")$(lspan "${DN}")"
+    echo "$(lspan "${NIC}")$(fspan "$RN$SUF") $(lspan "${DN}")"
     elif [ "$RT" = "total" ]; then
     echo "$(lspan "${NIC}")$(fspan "$AN$SUF")"
 else
-    echo "$(lspan "${NIC}")$(fspan "$RN$SUF")$(lspan "${DN}")$(fspan "$TN$SUF")$(lspan "${UP}")"
+    echo "$(lspan "${NIC}")  $(lspan "${DN}") $(fspan "$RN$SUF")  $(lspan "${UP}") $(fspan "$TN$SUF")"
 fi
 
 if [ ! -z "$button" ]; then
